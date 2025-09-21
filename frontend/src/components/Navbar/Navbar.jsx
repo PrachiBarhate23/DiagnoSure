@@ -9,6 +9,7 @@ import {
   ChevronDown,
   Menu,
   X,
+  Calendar,
   Hospital
 } from 'lucide-react';
 import './Navbar.css';
@@ -42,6 +43,7 @@ const Navbar = ({ isLanding = false, onScrollToFeature }) => {
     { key: 'symptomChecker', path: '/symptom-checker', id: 'symptomChecker' },
     { key: 'prescriptionReader', path: '/prescription-reader', id: 'prescriptionReader' },
     { key: 'careAppointments', path: '/appointments', id: 'careAppointments' },
+    { key: 'calendar', path: '/calendar', id: 'calendar', icon: Calendar }, 
     { key: 'communityForum', path: '/communityForum', id: 'communityForum' }
   ];
 

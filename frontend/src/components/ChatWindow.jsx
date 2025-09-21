@@ -24,14 +24,6 @@ const ChatWindow = () => {
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
   const handleSendMessage = (text, isVoice = false, audioBlob = null) => {
     if (!text.trim()) return;
 
@@ -51,13 +43,16 @@ const ChatWindow = () => {
 
     // Simulate API delay
     setTimeout(() => {
-      const mockResponse = getMockResponse();
+      // Pass the input text to get the appropriate response
+      const mockResponse = getMockResponse(text);
+      console.log('Mock response:', mockResponse); // Debug log
+      
       const botMessage = {
         id: Date.now() + 1,
         type: 'bot',
         content: mockResponse,
         timestamp: new Date(),
-        isVoice
+        isVoice: true // Force voice response to show audio player
       };
 
       setMessages(prev => [...prev, botMessage]);
@@ -167,7 +162,7 @@ const ChatWindow = () => {
           <div className="messages-container">
             {messages.length === 0 && (
               <div className="welcome-message">
-                <p>Hello! Describe your symptoms.</p>
+                <p>Hello! Describe your symptoms. Try typing "I have a cough and cold" to test the audio response.</p>
               </div>
             )}
             
@@ -189,7 +184,7 @@ const ChatWindow = () => {
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                placeholder="Type your symptoms here..."
+                placeholder="Type your symptoms here... (Try: 'I have a cough and cold')"
                 className="message-input"
               />
               

@@ -15,23 +15,21 @@ class UserProfile(models.Model):
     def __str__(self):
         return f"{self.user.username}'s profile"
 
+from django.db import models
+
 class Appointment(models.Model):
-    STATUS_CHOICES = (
-        ('booked', 'Booked'),
-        ('cancelled', 'Cancelled'),
-        ('done', 'Done')
-    )
-    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments')
-    doctor_name = models.CharField(max_length=100)
-    hospital_name = models.CharField(max_length=200, blank=True, null=True)  # <-- add hospital name field
+    doctor_name = models.CharField(max_length=255)
+    hospital_name = models.CharField(max_length=255)
     date = models.DateField()
     time = models.TimeField()
-    symptoms = models.TextField(blank=True)
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='booked')
+    symptoms = models.TextField()
+    status = models.CharField(max_length=50, default='booked')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.patient.username} - {self.doctor_name} - {self.date}"
+        return f"{self.doctor_name} - {self.hospital_name} on {self.date}"
+
+
 
 class Reminder(models.Model):
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
@@ -97,3 +95,4 @@ class Reminder(models.Model):
         if self.appointment:
             return f"Reminder for {self.appointment} at {self.remind_at}"
         return f"Prescription reminder at {self.remind_at}"
+

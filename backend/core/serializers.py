@@ -1,15 +1,19 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import UserProfile, Appointment, Reminder
-from .models import Category, Post, Comment
-from .models import ExtractedMedicine
+from .models import UserProfile, Appointment, Reminder, Post, Comment, Category, ExtractedMedicine
 
+# -----------------------
+# User
+# -----------------------
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email']
 
 
+# -----------------------
+# User Profile
+# -----------------------
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
 
@@ -25,28 +29,19 @@ class UserProfileSerializer(serializers.ModelSerializer):
         ]
 
 
+# -----------------------
+# Appointment
 class AppointmentSerializer(serializers.ModelSerializer):
-    patient = UserSerializer(read_only=True)  # <-- show patient info in response
-
     class Meta:
         model = Appointment
-        fields = [
-            'id',
-            'patient',
-            'doctor_name',
-            'hospital_name',  # <-- added hospital_name
-            'date',
-            'time',
-            'symptoms',
-            'status'
-        ]
-        read_only_fields = ['patient']
-
-
+        fields = '__all__'
+# -----------------------
+# Reminder
+# -----------------------
 class ReminderSerializer(serializers.ModelSerializer):
-    appointment = AppointmentSerializer(read_only=True)  # <-- return full appointment info
+    appointment = AppointmentSerializer(read_only=True, default=None)
     appointment_id = serializers.PrimaryKeyRelatedField(
-        queryset=Appointment.objects.all(), source="appointment", write_only=True
+        queryset=Appointment.objects.all(), source="appointment", write_only=True, required=False
     )
 
     class Meta:
@@ -54,6 +49,9 @@ class ReminderSerializer(serializers.ModelSerializer):
         fields = ['id', 'appointment', 'appointment_id', 'remind_at', 'sent']
 
 
+# -----------------------
+# Forum
+# -----------------------
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -61,7 +59,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    author = UserSerializer(read_only=True)
+    author = UserSerializer(read_only=True, default=None)
 
     class Meta:
         model = Comment
@@ -69,7 +67,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author = UserSerializer(read_only=True)
+    author = UserSerializer(read_only=True, default=None)
     comments = CommentSerializer(many=True, read_only=True)
     score = serializers.SerializerMethodField()
 
@@ -91,6 +89,10 @@ class PostSerializer(serializers.ModelSerializer):
     def get_score(self, obj):
         return obj.score()
 
+
+# -----------------------
+# Extracted Medicines
+# -----------------------
 class ExtractedMedicineSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExtractedMedicine

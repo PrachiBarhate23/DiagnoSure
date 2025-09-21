@@ -393,7 +393,8 @@ const Footer = () => {
       <div style={styles.footerContainer}>
         <div style={{...styles.footerSection, ...{gridColumn: '1 / -1'}}}>
           <p style={styles.footerTagline}>
-            AI-powered tools for personal health management and proactive care.
+            AI-powered tools for personal health management and proactive care.<br/>
+            This tool helps you understand your symptoms and prescriptions, but it does not replace a doctor - always consult a healthcare professional for medical advice.
           </p>
         </div>
       </div>

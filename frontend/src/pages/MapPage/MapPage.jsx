@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { useGeolocated } from "react-geolocated";
 import L from "leaflet";
@@ -12,15 +12,12 @@ import AppointmentForm from "../../components/AppointmentForm/AppointmentForm";
 import { Search, MapPin, Crosshair } from "lucide-react";
 import "./MapPage.css";
 
-// Fix leaflet marker icons
+// Fix leaflet marker issue
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+  iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
 // Floating locate button
@@ -37,21 +34,20 @@ const LocateButton = ({ userLocation }) => {
 };
 
 const MapPage = () => {
-  const { translate, addAppointment, hospitals, fetchHospitalsNearby } = useApp();
+  const { translate, hospitals, fetchHospitalsNearby } = useApp();
   const [selectedHospital, setSelectedHospital] = useState(null);
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
   const [appointmentHospital, setAppointmentHospital] = useState(null);
   const [searchLocation, setSearchLocation] = useState("");
 
-  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
-    useGeolocated({ positionOptions: { enableHighAccuracy: true }, userDecisionTimeout: 5000 });
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } = useGeolocated({
+    positionOptions: { enableHighAccuracy: true },
+    userDecisionTimeout: 5000,
+  });
 
-  // Fetch nearby hospitals when user location is available
-  useEffect(() => {
-    if (coords) {
-      fetchHospitalsNearby(coords.latitude, coords.longitude);
-    }
-  }, [coords]);
+  const handleSearch = () => {
+    if (coords) fetchHospitalsNearby(coords.latitude, coords.longitude, searchLocation || "hospital");
+  };
 
   const onBookAppointment = (hospital) => {
     setAppointmentHospital(hospital);
@@ -59,24 +55,15 @@ const MapPage = () => {
     setSelectedHospital(null);
   };
 
-  const onViewProfile = (hospital) => {
-    console.log("View profile for:", hospital.name);
-  };
+  const onViewProfile = (hospital) => console.log("View profile:", hospital.name);
 
-  const handleAppointmentSuccess = async (appointmentData) => {
-    const savedAppointment = await addAppointment(appointmentData);
-    console.log("Appointment booked successfully:", savedAppointment);
+  const handleAppointmentSuccess = (appointment) => {
+    console.log("Appointment booked successfully:", appointment);
   };
 
   if (!isGeolocationAvailable) return <p>Your browser does not support Geolocation ❌</p>;
   if (!isGeolocationEnabled) return <p>Geolocation is not enabled ❌</p>;
-  if (!coords)
-    return (
-      <div className="map-loading">
-        <div className="loading-spinner-large"></div>
-        <p>{translate("loadingLocation") || "Getting your location..."}</p>
-      </div>
-    );
+  if (!coords) return <p>{translate("loadingLocation") || "Getting your location..."}</p>;
 
   const userLocation = [coords.latitude, coords.longitude];
 
@@ -86,9 +73,8 @@ const MapPage = () => {
       <div className="map-header">
         <div className="map-header-content">
           <h1 className="page-title">{translate("careAppointments")}</h1>
-          <button className="find-appointments-btn">
-            <span className="btn-icon"><Search size={16} /></span>
-            {translate("findAppointments")}
+          <button className="find-appointments-btn" onClick={handleSearch}>
+            <Search size={16} /> {translate("findAppointments")}
           </button>
         </div>
       </div>
@@ -97,7 +83,7 @@ const MapPage = () => {
       <div className="search-section">
         <div className="search-container">
           <div className="search-input-wrapper">
-            <span className="search-icon"><MapPin size={20} /></span>
+            <MapPin size={20} />
             <input
               type="text"
               placeholder={translate("searchLocation")}
@@ -106,15 +92,19 @@ const MapPage = () => {
               className="search-input"
             />
           </div>
-          <button className="search-btn"><Search size={20} /></button>
+          <button className="search-btn" onClick={handleSearch}>
+            <Search size={20} />
+          </button>
         </div>
       </div>
 
       {/* Map Section */}
       <div className="map-section">
         <MapContainer center={userLocation} zoom={13} style={{ height: "400px", width: "100%" }}>
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" />
-
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution="&copy; OpenStreetMap contributors"
+          />
           <Marker position={userLocation}>
             <Popup>{translate("yourLocation") || "You are here 🚩"}</Popup>
           </Marker>
@@ -142,7 +132,7 @@ const MapPage = () => {
         </MapContainer>
       </div>
 
-      {/* Nearby Providers Section */}
+      {/* Nearby Providers */}
       <div className="providers-section">
         <h2 className="section-title">{translate("nearbyProviders")}</h2>
         <div className="providers-grid">

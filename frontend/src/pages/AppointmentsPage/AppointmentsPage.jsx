@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+// src/pages/AppointmentsPage/AppointmentsPage.jsx
+import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import {
   Calendar,
@@ -12,14 +13,9 @@ import {
 import './AppointmentsPage.css';
 
 const AppointmentsPage = () => {
-  const { appointments, fetchAppointments, removeAppointment, translate } = useApp();
+  const { appointments, removeAppointment, translate } = useApp();
   const [filter, setFilter] = useState('all'); // all, upcoming, past
   const [sortBy, setSortBy] = useState('date'); // date, hospital
-
-  // Fetch appointments from backend on mount
-  useEffect(() => {
-    fetchAppointments();
-  }, []);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -69,9 +65,9 @@ const AppointmentsPage = () => {
     return filtered;
   };
 
-  const handleCancelAppointment = async (appointmentId) => {
+  const handleCancelAppointment = (appointmentId) => {
     if (window.confirm('Are you sure you want to cancel this appointment?')) {
-      await removeAppointment(appointmentId); // calls backend + updates state
+      removeAppointment(appointmentId);
     }
   };
 
@@ -91,7 +87,7 @@ const AppointmentsPage = () => {
       return { status: 'upcoming', text: `In ${diffDays} days`, class: 'status-upcoming' };
     } else {
       return { status: 'scheduled', text: 'Scheduled', class: 'status-scheduled' };
-    }
+    
   };
 
   const filteredAppointments = getFilteredAppointments();
@@ -254,5 +250,5 @@ const AppointmentsPage = () => {
     </div>
   );
 };
-
+};
 export default AppointmentsPage;

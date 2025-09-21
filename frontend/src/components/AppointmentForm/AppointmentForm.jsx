@@ -1,52 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { useApp } from '../../context/AppContext';
 import './AppointmentForm.css';
+import { addAppointment } from '../../api/api';
 
 const AppointmentForm = ({ hospital, onClose, onSuccess }) => {
-  const { addAppointment, translate, token, API_BASE } = useApp();
   const [formData, setFormData] = useState({
-    patientName: '',
+    doctorName: '',
     appointmentDate: '',
     appointmentTime: '',
-    reason: ''
+    reason: '',
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [availableSlots, setAvailableSlots] = useState([]);
 
-  // Fetch available time slots whenever hospital or date changes
+  // Hardcoded slots
   useEffect(() => {
-    const fetchSlots = async () => {
-      if (hospital && formData.appointmentDate) {
-        try {
-          const res = await fetch(`${API_BASE}/appointments/slots/?hospitalId=${hospital.id}&date=${formData.appointmentDate}`, {
-            headers: { Authorization: `Bearer ${token}` }
-          });
-          const data = await res.json();
-          setAvailableSlots(data.slots || []);
-        } catch (err) {
-          console.error('Error fetching slots:', err);
-        }
-      }
-    };
-    fetchSlots();
+    if (hospital && formData.appointmentDate) {
+      const hardcodedSlots = ["09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00"];
+      setAvailableSlots(hardcodedSlots);
+    }
   }, [hospital, formData.appointmentDate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }));
   };
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.patientName.trim()) newErrors.patientName = translate('patientName') + ' is required';
-    if (!formData.appointmentDate) newErrors.appointmentDate = translate('appointmentDate') + ' is required';
+    if (!formData.doctorName.trim()) newErrors.doctorName = 'Doctor name is required';
+    if (!formData.appointmentDate) newErrors.appointmentDate = 'Appointment date is required';
     else if (new Date(formData.appointmentDate) < new Date().setHours(0,0,0,0))
-      newErrors.appointmentDate = translate('appointmentDate') + ' must be in the future';
-    if (!formData.appointmentTime) newErrors.appointmentTime = translate('appointmentTime') + ' is required';
-    if (!formData.reason.trim()) newErrors.reason = translate('reason') + ' is required';
+      newErrors.appointmentDate = 'Appointment date must be in the future';
+    if (!formData.appointmentTime) newErrors.appointmentTime = 'Appointment time is required';
+    if (!formData.reason.trim()) newErrors.reason = 'Reason is required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -56,9 +45,15 @@ const AppointmentForm = ({ hospital, onClose, onSuccess }) => {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-
     try {
-      const payload = { ...formData, hospitalId: hospital.id };
+      const payload = {
+        doctor_name: formData.doctorName,
+        hospital_name: hospital.name,
+        date: formData.appointmentDate,
+        time: formData.appointmentTime,
+        symptoms: formData.reason,
+      };
+
       const result = await addAppointment(payload);
 
       if (result.success) {
@@ -68,10 +63,11 @@ const AppointmentForm = ({ hospital, onClose, onSuccess }) => {
           onClose();
         }, 2000);
       } else {
-        console.error('Booking failed:', result);
+        setErrors({ submit: result.error || 'Booking failed' });
       }
     } catch (err) {
       console.error('Error booking appointment:', err);
+      setErrors({ submit: 'Network error' });
     } finally {
       setIsSubmitting(false);
     }
@@ -83,8 +79,10 @@ const AppointmentForm = ({ hospital, onClose, onSuccess }) => {
     return (
       <div className="appointment-success">
         <div className="success-icon">✅</div>
-        <h3>{translate('appointmentSuccess')}</h3>
-        <p>{translate('appointmentWith')} {hospital.name} {translate('hasBeenScheduled')}.</p>
+        <h3>Appointment Booked!</h3>
+        <p>
+          Appointment with {hospital.name} has been scheduled.
+        </p>
       </div>
     );
   }
@@ -102,22 +100,22 @@ const AppointmentForm = ({ hospital, onClose, onSuccess }) => {
 
       <form onSubmit={handleSubmit} className="form">
         <div className="form-group">
-          <label htmlFor="patientName">{translate('patientName')} *</label>
+          <label htmlFor="doctorName">Doctor Name *</label>
           <input
             type="text"
-            id="patientName"
-            name="patientName"
-            value={formData.patientName}
+            id="doctorName"
+            name="doctorName"
+            value={formData.doctorName}
             onChange={handleChange}
-            className={errors.patientName ? 'error' : ''}
-            placeholder={translate('enterPatientName')}
+            className={errors.doctorName ? 'error' : ''}
+            placeholder="Enter Doctor Name"
           />
-          {errors.patientName && <span className="error-message">{errors.patientName}</span>}
+          {errors.doctorName && <span className="error-message">{errors.doctorName}</span>}
         </div>
 
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="appointmentDate">{translate('appointmentDate')} *</label>
+            <label htmlFor="appointmentDate">Appointment Date *</label>
             <input
               type="date"
               id="appointmentDate"
@@ -131,7 +129,7 @@ const AppointmentForm = ({ hospital, onClose, onSuccess }) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="appointmentTime">{translate('appointmentTime')} *</label>
+            <label htmlFor="appointmentTime">Appointment Time *</label>
             <select
               id="appointmentTime"
               name="appointmentTime"
@@ -139,15 +137,19 @@ const AppointmentForm = ({ hospital, onClose, onSuccess }) => {
               onChange={handleChange}
               className={errors.appointmentTime ? 'error' : ''}
             >
-              <option value="">{translate('selectTime')}</option>
-              {availableSlots.map(t => <option key={t} value={t}>{t}</option>)}
+              <option value="">Select Time</option>
+              {availableSlots.length > 0 ? (
+                availableSlots.map((t) => <option key={t} value={t}>{t}</option>)
+              ) : (
+                <option disabled>No slots available</option>
+              )}
             </select>
             {errors.appointmentTime && <span className="error-message">{errors.appointmentTime}</span>}
           </div>
         </div>
 
         <div className="form-group">
-          <label htmlFor="reason">{translate('reason')} *</label>
+          <label htmlFor="reason">Reason *</label>
           <textarea
             id="reason"
             name="reason"
@@ -155,15 +157,19 @@ const AppointmentForm = ({ hospital, onClose, onSuccess }) => {
             onChange={handleChange}
             rows="3"
             className={errors.reason ? 'error' : ''}
-            placeholder={translate('describeReason')}
+            placeholder="Describe reason for appointment"
           />
           {errors.reason && <span className="error-message">{errors.reason}</span>}
         </div>
 
+        {errors.submit && <div className="error-message">{errors.submit}</div>}
+
         <div className="form-actions">
-          <button type="button" onClick={onClose} disabled={isSubmitting}>{translate('cancel')}</button>
+          <button type="button" onClick={onClose} disabled={isSubmitting}>
+            Cancel
+          </button>
           <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? translate('booking') + '...' : translate('submitAppointment')}
+            {isSubmitting ? 'Booking...' : 'Book Appointment'}
           </button>
         </div>
       </form>

@@ -7,6 +7,7 @@ import { AppProvider } from "./context/AppContext";
 import Navbar from "./components/Navbar/Navbar";
 import ChatWindow from "./components/ChatWindow";
 import PrescriptionReader from "./components/PrescriptionReader";
+import CommunityHome from "./components/CommunityHome";
 import Footer from "./components/Footer";
 
 // Pages
@@ -17,7 +18,7 @@ import LandingPage from "./pages/LandingPage";
 import SignupPage from "./pages/Signup";
 import CompleteYourProfile from "./pages/CompleteYourProfile";
 import LoginPage from "./pages/LoginPage";
-
+import CalendarPage from "./pages/CalendarPage";
 // Styles
 import "./App.css";
 
@@ -84,7 +85,8 @@ function App() {
             <Route path="/symptom-checker" element={<ChatWindow />} />
             <Route path="/prescription-reader" element={<PrescriptionReader />} />
             <Route path="/profile" element={<Profile />} />
-
+            <Route path="/calendar" element={<CalendarPage />} />
+            <Route path="/communityForum" element={<CommunityHome />} />
             {/* Fallback */}
             <Route path="*" element={<LandingPage />} />
           </Routes>

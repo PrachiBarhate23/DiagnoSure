@@ -7,53 +7,92 @@
 }
 
 /* Header */
+/* MapPage Header - New Chat-style look */
 .map-header {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  margin:20px;
+  position: relative;
+  padding: 40px 20px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  overflow: hidden; /* keep overlay inside rounded corners */
   color: white;
-  padding: 30px 20px;
-  margin-bottom: 0;
+  text-align: center;
 }
 
+/* Background image overlay like chat header */
+.map-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(/src/assets/bg.jpg) center / cover no-repeat;
+    opacity: 0.25;
+    z-index: 0;
+}
+
+/* Map header content stays above overlay */
 .map-header-content {
+  position: relative;
+  z-index: 1;
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
+  flex-direction: column; /* stacked like chat header */
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  gap: 15px;
 }
 
 .page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1976d2; /* same as chat header title */
   margin: 0;
-  font-size: 32px;
-  font-weight: 800;
-  letter-spacing: -1px;
 }
 
 .find-appointments-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  background: rgba(255, 255, 255, 0.15);
+  background: #1976d2;
   color: white;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 12px;
-  cursor: pointer;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
   font-weight: 600;
-  font-size: 14px;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(10px);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .find-appointments-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: #1565c0;
   transform: translateY(-1px);
 }
 
-.btn-icon {
-  font-size: 16px;
+/* Responsive adjustments like chat header */
+@media (max-width: 768px) {
+  .map-header {
+    padding: 30px 16px;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .find-appointments-btn {
+    padding: 12px 25px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.8rem;
+  }
+
+  .find-appointments-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* Search Section */
