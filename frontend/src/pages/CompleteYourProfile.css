@@ -1,0 +1,346 @@
+/* CSS Variables for Theme Support */
+:root {
+  /* Light Theme (Day Mode) */
+  --signup-bg: #FFFFFF;
+  --signup-left-bg: #F0F8FF;
+  --signup-card-bg: #FFFFFF;
+  --signup-text-primary: #333333;
+  --signup-text-secondary: #6C757D;
+  --signup-heading-color: #1a202c;
+  --signup-subheading-color: #4a5568;
+  --signup-input-bg: #FFFFFF;
+  --signup-input-border: #E2E8F0;
+  --signup-input-focus: #007BFF;
+  --signup-button-primary: #007BFF;
+  --signup-button-primary-text: #FFFFFF;
+  --signup-button-secondary: #F8F9FA;
+  --signup-button-secondary-text: #333333;
+  --signup-shadow: rgba(0, 0, 0, 0.1);
+  --signup-shadow-hover: rgba(0, 0, 0, 0.15);
+  --signup-illustration-color: #333333;
+  --signup-link-color: #007BFF;
+}
+
+[data-theme="dark"] {
+  /* Dark Theme (Night Mode) */
+  --signup-bg: #1A202C;
+  --signup-left-bg: #2D3748;
+  --signup-card-bg: #2D3748;
+  --signup-text-primary: #F8F9FA;
+  --signup-text-secondary: #A0AEC0;
+  --signup-heading-color: #F8F9FA;
+  --signup-subheading-color: #A0AEC0;
+  --signup-input-bg: #4A5568;
+  --signup-input-border: #718096;
+  --signup-input-focus: #007BFF;
+  --signup-button-primary: #007BFF;
+  --signup-button-primary-text: #FFFFFF;
+  --signup-button-secondary: #4A5568;
+  --signup-button-secondary-text: #F8F9FA;
+  --signup-shadow: rgba(255, 255, 255, 0.05);
+  --signup-shadow-hover: rgba(255, 255, 255, 0.1);
+  --signup-illustration-color: #F8F9FA;
+  --signup-link-color: #63B3ED;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.profile-container {
+  min-height: 100vh;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: white;
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.brand-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--signup-text-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.signin-link {
+  font-size: 0.9rem;
+  color: var(--signup-text-secondary);
+  transition: color 0.3s ease;
+}
+
+.signin-link a {
+  color: var(--signup-link-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.signin-link a:hover {
+  text-decoration: underline;
+}
+
+.profile-content {
+  display: flex;
+  min-height: calc(100vh - 80px);
+}
+
+.left-section {
+  flex: 1;
+  background-color: var(--signup-left-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.hero-header-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+
+.hero-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--signup-heading-color);
+  margin-bottom: 0;
+  line-height: 1.2;
+  transition: color 0.3s ease;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--signup-subheading-color);
+  margin-bottom: 0;
+  transition: color 0.3s ease;
+}
+
+.hero-image {
+  margin: 40px 0;
+}
+
+.health-illustration {
+  max-width: 100%;
+  height: auto;
+  max-height: 250px;
+  transition: color 0.3s ease;
+}
+
+.hero-footer {
+  font-size: 1rem;
+  color: var(--signup-link-color);
+  font-weight: 600;
+  margin-top: 30px;
+  transition: color 0.3s ease;
+}
+
+.right-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: var(--signup-card-bg);
+  transition: background-color 0.3s ease;
+}
+
+.profile-form-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--signup-heading-color);
+  margin-bottom: 8px;
+  transition: color 0.3s ease;
+}
+
+.form-subtitle {
+  font-size: 0.95rem;
+  color: var(--signup-subheading-color);
+  margin-bottom: 32px;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-input, .form-textarea {
+  padding: 14px 16px;
+  border: 2px solid var(--signup-input-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Lato', sans-serif;
+  background-color: var(--signup-input-bg);
+  color: var(--signup-text-primary);
+  transition: all 0.3s ease;
+  width: 100%;
+  resize: vertical; /* Allows the user to resize the textarea vertically */
+}
+
+.form-input:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--signup-input-focus);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.form-input::placeholder, .form-textarea::placeholder {
+  color: var(--signup-text-secondary);
+  transition: color 0.3s ease;
+}
+
+.profile-btn {
+  padding: 14px 24px;
+  background-color: var(--signup-button-primary);
+  color: var(--signup-button-primary-text);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Lato', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+}
+
+.profile-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.profile-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .profile-content {
+    flex-direction: column;
+  }
+  .left-section {
+    min-height: 300px;
+    padding: 30px;
+  }
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  .hero-image {
+    margin: 30px 0;
+  }
+  .health-illustration {
+    max-height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-header {
+    padding: 15px 20px;
+  }
+  .brand-name {
+    font-size: 1.3rem;
+  }
+  .left-section {
+    padding: 20px;
+    min-height: 250px;
+  }
+  .hero-title {
+    font-size: 1.6rem;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  .health-illustration {
+    max-height: 180px;
+  }
+  .right-section {
+    padding: 20px;
+  }
+  .form-title {
+    font-size: 1.5rem;
+  }
+  .form-subtitle {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  .signin-link {
+    font-size: 0.85rem;
+  }
+  .left-section {
+    padding: 15px;
+    min-height: 200px;
+  }
+  .hero-title {
+    font-size: 1.4rem;
+  }
+  .health-illustration {
+    max-height: 150px;
+  }
+  .right-section {
+    padding: 15px;
+  }
+  .profile-form-container {
+    max-width: 100%;
+  }
+  .form-input, .form-textarea {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+  }
+  .profile-btn {
+    padding: 12px 20px;
+    font-size: 0.95rem;
+  }
+}

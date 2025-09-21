@@ -1,0 +1,82 @@
+.audio-player {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  margin-top: 10px;
+}
+
+.play-pause-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #1976d2;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+.play-pause-btn:hover {
+  background: #1565c0;
+}
+
+.audio-progress {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #1976d2;
+  transition: width 0.1s ease;
+}
+
+.time-display {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.waveform-animation {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 30px;
+}
+
+.waveform-bar {
+  width: 3px;
+  height: 10px;
+  background: #ccc;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.waveform-bar.active {
+  background: #1976d2;
+  animation: waveform 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes waveform {
+  0% { height: 10px; }
+  100% { height: 25px; }
+}

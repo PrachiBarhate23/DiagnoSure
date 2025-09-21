@@ -1,0 +1,309 @@
+/* #root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+} */
+
+
+/* src/App.css */
+
+/* Global Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Lato", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+#root {
+  height: 100%;
+  min-height: 100vh;
+}
+
+/* Remove default button styles */
+button {
+  border: none;
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Remove default link styles */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Ensure proper layout flow */
+.landing-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+/* src/App.css */
+
+/* Import Google Font - Lato */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&display=swap');
+
+/* CSS Custom Properties for Theme */
+:root {
+  /* Day Mode (Light Theme) */
+  --navbar-bg: #FFFFFF;
+  --hero-background-color: #F0F8FF;
+  
+  --text-primary: #333333;
+  --text-secondary: #6C757D;
+  --hero-heading-color: #1a202c;
+  --hero-subheading-color: #4a5568;
+  --toggle-icon-color: #4A4A4A;
+  
+  --button-primary-bg: #007BFF;
+  --button-primary-text: #FFFFFF;
+  --button-secondary-bg: transparent;
+  --button-secondary-border: #007BFF;
+  --button-secondary-text: #007BFF;
+  
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --spline-shadow: rgba(0, 0, 0, 0.1);
+  --spline-bg: rgba(255, 255, 255, 0.1);
+  --spline-border: rgba(255, 255, 255, 0.2);
+  
+  --page-bg: #f8f9fa; /* Using an off-white for consistent light theme background */
+  --card-bg: #FFFFFF;
+  --input-bg: #FFFFFF;
+  --hover-color: #F3F4F6;
+  --border-color: #E5E7EB;
+
+  /* Other colors from original file, adjusted for consistency */
+  --primary-color: #007BFF;
+  --primary-dark: #0056b3;
+  --primary-light: rgba(0, 123, 255, 0.1);
+
+  --success-color: #10B981;
+  --success-light: rgba(16, 185, 129, 0.1);
+  
+  --warning-color: #F59E0B;
+  --warning-light: rgba(245, 158, 11, 0.1);
+  
+  --error-color: #EF4444;
+  --error-light: rgba(239, 68, 68, 0.1);
+  
+  --info-color: #06B6D4;
+  --info-light: rgba(6, 182, 212, 0.1);
+}
+
+/* Night Mode (Dark Theme) */
+[data-theme="dark"] {
+  --navbar-bg: #1A202C;
+  --hero-background-color: #1a202c;
+  
+  --text-primary: #F8F9FA;
+  --text-secondary: #A0AEC0;
+  --hero-heading-color: #f8f9fa;
+  --hero-subheading-color: #a0aec0;
+  --toggle-icon-color: #F8F9FA;
+  
+  --button-primary-bg: #007BFF;
+  --button-primary-text: #FFFFFF;
+  --button-secondary-bg: transparent;
+  --button-secondary-border: #F8F9FA;
+  --button-secondary-text: #F8F9FA;
+  
+  --shadow-color: rgba(255, 255, 255, 0.05);
+  --spline-shadow: rgba(255, 255, 255, 0.05);
+  --spline-bg: rgba(255, 255, 255, 0.05);
+  --spline-border: rgba(255, 255, 255, 0.1);
+  
+  --page-bg: #111827;
+  --card-bg: #1f2937;
+  --input-bg: #1f2937;
+  --hover-color: #2D3748;
+  --border-color: #4A5568;
+}
+
+/* Base Styles */
+body {
+  font-family: 'Lato', sans-serif;
+  margin: 0;
+  background-color: var(--page-bg);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Apply transition to all elements for smooth theme change */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--page-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Dark mode scrollbar */
+[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: var(--page-bg);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Hero Section Text Styles */
+.hero-heading {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--hero-heading-color);
+}
+
+.hero-subheading {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--hero-subheading-color);
+}
+
+/* Other global styles */
+.btn {
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.btn-primary {
+  background: var(--button-primary-bg);
+  color: var(--button-primary-text);
+  border-color: var(--button-primary-bg);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.btn-secondary {
+  background: var(--button-secondary-bg);
+  color: var(--button-secondary-text);
+  border-color: var(--button-secondary-border);
+}
+
+.btn-secondary:hover {
+  background: var(--hover-color);
+  border-color: var(--button-secondary-text);
+}
+
+
+/* Mobile Optimizations */
+@media (max-width: 1024px) {
+  .hero-heading {
+    font-size: 2.5rem;
+  }
+  .hero-subheading {
+    font-size: 1.125rem;
+  }
+  .btn {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    padding: 30px 16px;
+  }
+  .page-header h1 {
+    font-size: 28px;
+  }
+  .page-content {
+    padding: 30px 16px;
+  }
+  .coming-soon {
+    padding: 60px 16px;
+  }
+  .coming-soon-icon {
+    font-size: 64px;
+  }
+  .coming-soon h2 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-heading {
+    font-size: 2rem;
+  }
+  .hero-subheading {
+    font-size: 1rem;
+  }
+}

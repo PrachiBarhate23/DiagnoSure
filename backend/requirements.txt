@@ -1,0 +1,16 @@
+Django>=4.2
+djangorestframework
+djangorestframework-simplejwt
+dj-rest-auth
+django-allauth
+psycopg2-binary
+python-dotenv
+requests
+twilio
+celery
+redis
+cryptography
+opencv-python-headless
+pillow
+pytesseract
+

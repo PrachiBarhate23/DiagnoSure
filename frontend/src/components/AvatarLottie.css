@@ -1,0 +1,219 @@
+.avatar-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
+
+.avatar-fallback.speaking {
+  transform: scale(1.1);
+  animation: avatar-speaking 1s ease-in-out infinite;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+@keyframes avatar-speaking {
+  0%, 100% { 
+    transform: scale(1.1); 
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  }
+  50% { 
+    transform: scale(1.15); 
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+  }
+}
+
+.avatar-face {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  backdrop-filter: blur(10px);
+}
+
+.medical-icon {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  z-index: 3;
+  opacity: 0.9;
+}
+
+.avatar-eyes {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+  z-index: 2;
+}
+
+.eye {
+  width: 5px;
+  height: 5px;
+  background: #1a1a1a;
+  border-radius: 50%;
+  animation: blink 3s infinite;
+}
+
+@keyframes blink {
+  0%, 92%, 100% { 
+    height: 5px; 
+    opacity: 1;
+  }
+  95% { 
+    height: 1px; 
+    opacity: 0.8;
+  }
+}
+
+.avatar-mouth {
+  position: relative;
+  z-index: 2;
+}
+
+.mouth-shape {
+  width: 10px;
+  height: 5px;
+  background: #1a1a1a;
+  border-radius: 0 0 10px 10px;
+  transition: all 0.15s ease;
+}
+
+.avatar-mouth.talking .mouth-shape {
+  animation: advanced-talking 0.3s ease-in-out infinite alternate;
+}
+
+@keyframes advanced-talking {
+  0% {
+    width: 10px;
+    height: 5px;
+    border-radius: 0 0 10px 10px;
+    transform: scaleY(1);
+  }
+  25% {
+    width: 14px;
+    height: 8px;
+    border-radius: 50%;
+    transform: scaleY(1.3);
+  }
+  50% {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transform: scaleY(0.8);
+  }
+  75% {
+    width: 12px;
+    height: 6px;
+    border-radius: 50% 50% 50% 50%;
+    transform: scaleY(1.1);
+  }
+  100% {
+    width: 6px;
+    height: 4px;
+    border-radius: 0 0 8px 8px;
+    transform: scaleY(0.9);
+  }
+}
+
+/* Doctor-specific styles */
+.doctor-collar {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 3px;
+  z-index: 1;
+}
+
+.collar-left, .collar-right {
+  width: 10px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  clip-path: polygon(0 100%, 100% 100%, 50% 0);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Nurse-specific styles */
+.nurse-cap {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.cap-base {
+  width: 24px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px 12px 0 0;
+  border: 1px solid rgba(0,0,0,0.2);
+}
+
+.cap-cross {
+  position: absolute;
+  color: #e53935;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* Robot-specific styles */
+.robot-antenna {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 3;
+}
+
+.antenna-line {
+  width: 2px;
+  height: 10px;
+  background: rgba(255,255,255,0.9);
+}
+
+.antenna-tip {
+  width: 4px;
+  height: 4px;
+  background: #ffeb3b;
+  border-radius: 50%;
+  animation: antenna-blink 1.5s infinite;
+  box-shadow: 0 0 6px #ffeb3b;
+}
+
+@keyframes antenna-blink {
+  0%, 50% { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+  51%, 100% { 
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+}
+
+/* Hover effects */
+.avatar-fallback:hover {
+  transform: scale(1.05);
+}
+
+.avatar-fallback.speaking:hover {
+  transform: scale(1.2);
+}
